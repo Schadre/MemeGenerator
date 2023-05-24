@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.73), rgba(0, 0, 0, 0.73)), url('../../static/images/Profile.jpeg');
+        background-position: center;
+        height: 100vh;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+    }
+
+    .list-group-item {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .update-form {
+        margin-top: 20px;
+    }
+
+    .update-form label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .update-form input {
+        width: 50%;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    .update-form button {
+        margin-top: 10px;
+    }
+</style>
+<section class="text-center p-5">
+    <div class="container p-5">
+        <ul class="list-group">
+            <li class="list-group-item text-warning">First Name: {{ current_user.first }}</li>
+            <li class="list-group-item text-warning">Last Name: {{ current_user.last }}</li>
+            <li class="list-group-item text-warning">Username: {{ current_user.username }}</li>
+            <li class="list-group-item text-warning">Email: {{ current_user.email }}</li>
+        </ul>
+    </div>
+</section>
+    <div class="container p-5">
+        <form class="update-form text-warning" method="POST" action="/update-profile">
+            <h3>Update Profile</h3>
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first" id="first_name" value="{{ current_user.first }}" required>
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last" id="last_name" value="{{ current_user.last }}" required>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" value="{{ current_user.username }}" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="{{ current_user.email }}" required>
+            <br>
+            <button class="btn btn-danger" type="submit">Update</button>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.73), rgba(0, 0, 0, 0.73)), url('../../static/images/Error.jpeg');
+        background-position: center;
+        height: 100vh;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        color: #F57F17;
+    }
+</style>
+<section class="p-5">
+    <section class="p-5">
+        <div class="container text-center">
+            <h1>{{ error_code }}</h1>
+            {% if error_message %}
+            <p>{{ error_message }}</p>
+            <p >Try logging in or signing up to resolve the issue.</p>
+        {% endif %}
+        </div>
+    </section>
+</section>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.73), rgba(0, 0, 0, 0.73)), url('../../static/images/Frog.jpeg');
+        background-position: center;
+        height: 100vh;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+    
+    form div {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    form div label {
+        width: 150px;
+        font-weight: bold;
+        text-align: right;
+        margin-right: 10px;
+    }
+    
+    form div input {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        font-size: 16px;
+    }
+    
+    form button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        font-size: 16px;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+  
+    .delete-button {
+        margin-top: -50px;
+    }
+    
+    .meme {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .meme img {
+        display: block;
+        width: 300px;
+        height: auto;
+    }
+    
+    .meme .quote {
+        position: absolute;
+        bottom: 0%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.0);
+        padding: 10px;
+        font-family: Impact, sans-serif;
+        font-size: 24px;
+        color: white;
+        text-align: center;
+        max-width: 90%;
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border-radius: 5px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    
+</style>
+<section class="text-center text-warning p-5">
+    <div class="container p-5">
+        <form method="post" action="{{ url_for('site.add_meme') }}" enctype="multipart/form-data">
+            <div>
+                <label for="Quote">Quote:</label>
+                <input type="text" id="Quote" name="Quote" maxlength="15" required>
+            </div>
+            <p style="font-size: small; margin-left: 150px; white-space: nowrap;">(Please enter a one-word quote)</p>
+            <div>
+                <label for="Img">Img:</label>
+                <input type="file" id="Img" name="Img" accept="image/*" required>
+            </div>
+            <button class="btn-danger" type="submit">Add Meme</button>
+        </form>
+
+        <table id="profile" class="table table-striped" style="color: whitesmoke;">
+            <thead>
+                <tr>
+                    <th>Memes</th>
+                    <th>Actions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for meme in memes %}
+                    <tr>
+                        <td style="color: whitesmoke;">
+                            <div class="meme">
+                                <img src="data:image/jpeg;base64,{{ meme.get_image_data() }}" alt="Meme Image">
+                                <div class="quote">{{ meme.quote }}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('site.delete_meme', id=meme.id) }}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger delete-button">Delete</button>
+                            </form>
+                            <form method="GET" action="{{ url_for('site.download_meme', id=meme.id) }}">
+                                <button type="submit" class="btn btn-danger download-button">Download</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
